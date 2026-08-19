@@ -13,12 +13,28 @@ function createWindow() {
       enableRemoteModule: false,
       nodeIntegration: false,
     },
+    icon: path.join(__dirname, 'assets', 'icon.png'),
   });
+
   mainWindow.loadFile('index.html');
+
+  // Remove default menu
   Menu.setApplicationMenu(null);
-  mainWindow.on('closed', () => { mainWindow = null; });
+
+  // Open DevTools optionally
+  // mainWindow.webContents.openDevTools();
+
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+  });
 }
 
 app.whenReady().then(createWindow);
-app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
-app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') app.quit();
+});
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) createWindow();
+});
