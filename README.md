@@ -26,3 +26,21 @@ Output goes to the `dist/` folder (installer for your OS).
 - `renderer.js` — tab management and navigation logic
 - `styles.css` — UI styling
 - `package.json` — dependencies and build config
+# Advanced Browser
+
+A feature-rich custom browser built on Electron, packed with over 35 built-in features – no server, no cloud, all local.
+
+## Features
+- Dark/Light theme
+- Tab management (new, close, duplicate, reorder)
+- Bookmark and history
+- Downloads list
+- Search engine switcher
+- Incognito windows
+- Full keyboard shortcuts
+- And much more!
+
+## Build & Run
+```bash
+npm install
+npm start
