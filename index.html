@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Advanced Browser</title>
+  <title>Minimal Browser</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,9 +14,10 @@
     <button id="reloadBtn" title="Reload">⟳</button>
     <button id="homeBtn" title="Home">🏠</button>
     <input id="urlBar" type="text" placeholder="Search or enter URL..." spellcheck="false">
-    <button id="bookmarkBtn" title="Bookmark">⭐</button>
-    <button id="incognitoBtn" title="New Incognito Window">👤</button>
-    <button id="downloadsBtn" title="Downloads">⬇</button>
+    <button id="bookmarkBtn" title="Bookmark">☆</button>
+    <button id="historyBtn" title="History">📜</button>
+    <button id="duplicateBtn" title="Duplicate Tab">📋</button>
+    <button id="darkModeBtn" title="Toggle Dark Mode">🌙</button>
     <button id="settingsBtn" title="Settings">⚙</button>
     <button id="newTabBtn" title="New Tab">+</button>
   </div>
@@ -24,25 +25,43 @@
   <!-- Tabs -->
   <div id="tabsContainer"></div>
 
-  <!-- Webviews -->
+  <!-- Webview container -->
   <div id="webviewContainer"></div>
 
-  <!-- Panels (hidden by default) -->
+  <!-- History Panel -->
+  <div id="historyPanel" class="panel hidden">
+    <h4>History</h4>
+    <input id="historySearch" placeholder="Search history..." />
+    <ul id="historyList"></ul>
+    <button id="clearHistoryBtn">Clear All</button>
+  </div>
+
+  <!-- Bookmarks Panel -->
   <div id="bookmarksPanel" class="panel hidden">
-    <h3>Bookmarks</h3>
+    <h4>Bookmarks</h4>
     <input id="bookmarkSearch" placeholder="Search bookmarks..." />
     <ul id="bookmarkList"></ul>
   </div>
-  <div id="historyPanel" class="panel hidden">
-    <h3>History</h3>
-    <input id="historySearch" placeholder="Search history..." />
-    <button id="clearHistoryBtn">Clear All</button>
-    <ul id="historyList"></ul>
-  </div>
-  <div id="downloadsPanel" class="panel hidden">
-    <h3>Downloads</h3>
-    <ul id="downloadsList"></ul>
-    <button id="clearDownloadsBtn">Clear Completed</button>
+
+  <!-- Settings Panel -->
+  <div id="settingsPanel" class="panel hidden">
+    <h4>Settings</h4>
+    <label>Theme:
+      <select id="themeSelect">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </label>
+    <br>
+    <label>Search Engine:
+      <select id="searchEngineSelect">
+        <option value="google">Google</option>
+        <option value="bing">Bing</option>
+        <option value="duckduckgo">DuckDuckGo</option>
+      </select>
+    </label>
+    <br>
+    <button id="clearAllDataBtn">Clear All Data (History + Bookmarks)</button>
   </div>
 
   <script src="renderer.js"></script>
