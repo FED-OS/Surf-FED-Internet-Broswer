@@ -11,7 +11,7 @@ body {
   align-items: center;
   padding: 4px 8px;
   gap: 4px;
-  background: #1a5276;
+  background: #2d2d2d;
   flex-shrink: 0;
 }
 #toolbar button {
@@ -58,7 +58,7 @@ body {
   background: #333;
   color: #ccc;
 }
-.tab.active { background: #444; color: #ffcc00; font-weight: bold; }
+.tab.active { background: #444; color: #fff; font-weight: bold; }
 .tab .close-tab {
   background: none;
   border: none;
