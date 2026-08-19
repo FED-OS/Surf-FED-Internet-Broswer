@@ -1,4 +1,3 @@
-/* === RESET === */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: system-ui, sans-serif;
@@ -6,15 +5,7 @@ body {
   display: flex;
   flex-direction: column;
   background: #f0f0f0;
-  color: #222;
-  transition: background 0.3s, color 0.3s;
 }
-body.dark {
-  background: #1e1e1e;
-  color: #eee;
-}
-
-/* === TOOLBAR === */
 #toolbar {
   display: flex;
   align-items: center;
@@ -22,10 +13,7 @@ body.dark {
   gap: 4px;
   background: #2d2d2d;
   flex-shrink: 0;
-  border-bottom: 1px solid #555;
 }
-body.dark #toolbar { background: #1a1a1a; }
-
 #toolbar button {
   background: #3d3d3d;
   border: none;
@@ -34,12 +22,8 @@ body.dark #toolbar { background: #1a1a1a; }
   padding: 4px 10px;
   border-radius: 4px;
   cursor: pointer;
-  transition: background 0.2s;
 }
 #toolbar button:hover { background: #5d5d5d; }
-body.dark #toolbar button { background: #333; }
-body.dark #toolbar button:hover { background: #555; }
-
 #urlBar {
   flex: 1;
   padding: 4px 12px;
@@ -51,9 +35,6 @@ body.dark #toolbar button:hover { background: #555; }
   outline: none;
 }
 #urlBar:focus { background: #5d5d5d; }
-body.dark #urlBar { background: #3a3a3a; color: #eee; }
-
-/* === TABS === */
 #tabsContainer {
   display: flex;
   align-items: center;
@@ -62,10 +43,7 @@ body.dark #urlBar { background: #3a3a3a; color: #eee; }
   background: #252525;
   flex-shrink: 0;
   overflow-x: auto;
-  border-bottom: 1px solid #555;
 }
-body.dark #tabsContainer { background: #1a1a1a; }
-
 .tab {
   display: flex;
   align-items: center;
@@ -79,18 +57,8 @@ body.dark #tabsContainer { background: #1a1a1a; }
   font-size: 13px;
   background: #333;
   color: #ccc;
-  border: 1px solid transparent;
-  border-bottom: none;
 }
-.tab.active {
-  background: #444;
-  color: #fff;
-  font-weight: bold;
-  border-color: #888;
-}
-body.dark .tab { background: #2a2a2a; color: #aaa; }
-body.dark .tab.active { background: #3a3a3a; color: #fff; }
-
+.tab.active { background: #444; color: #fff; font-weight: bold; }
 .tab .close-tab {
   background: none;
   border: none;
@@ -101,66 +69,43 @@ body.dark .tab.active { background: #3a3a3a; color: #fff; }
   margin-left: 4px;
 }
 .tab .close-tab:hover { color: #fff; }
-
-/* === WEBVIEW === */
 #webviewContainer { flex: 1; position: relative; }
 webview { width: 100%; height: 100%; display: none; }
 webview.active { display: inline-flex; }
 
-/* === PANELS (shared) === */
-.panel {
-  position: fixed;
-  top: 60px;
-  right: 10px;
-  width: 300px;
-  max-height: 70vh;
-  overflow-y: auto;
-  background: #fff;
-  color: #222;
-  padding: 12px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  z-index: 9999;
-  display: none;
+/* ---------- Dark mode ---------- */
+/* This darkens the browser's own UI (toolbar, tabs, background).
+   It does NOT change the content of websites themselves - that would
+   require injecting CSS into each webview, which is a separate feature. */
+
+body.dark-mode {
+  background: #121212;
 }
-.panel.visible { display: block; }
-.panel input, .panel select {
-  width: 100%;
-  padding: 4px 8px;
-  margin: 4px 0;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  background: #f9f9f9;
+body.dark-mode #toolbar {
+  background: #1a1a1a;
 }
-body.dark .panel {
-  background: #2d2d2d;
+body.dark-mode #toolbar button {
+  background: #2a2a2a;
   color: #eee;
 }
-body.dark .panel input,
-body.dark .panel select {
-  background: #444;
+body.dark-mode #toolbar button:hover {
+  background: #3a3a3a;
+}
+body.dark-mode #urlBar {
+  background: #2a2a2a;
   color: #eee;
-  border-color: #666;
 }
-.panel ul {
-  list-style: none;
-  padding: 0;
+body.dark-mode #urlBar:focus {
+  background: #333;
 }
-.panel ul li {
-  padding: 4px 0;
-  border-bottom: 1px solid #ddd;
-  cursor: pointer;
+body.dark-mode #tabsContainer {
+  background: #161616;
 }
-.panel ul li:hover { background: #f0f0f0; }
-body.dark .panel ul li { border-bottom-color: #555; }
-body.dark .panel ul li:hover { background: #3a3a3a; }
-.panel button {
-  margin-top: 8px;
-  padding: 4px 12px;
-  border: none;
-  border-radius: 4px;
-  background: #3d3d3d;
-  color: white;
-  cursor: pointer;
+body.dark-mode .tab {
+  background: #1e1e1e;
+  color: #999;
 }
-.panel button:hover { background: #5d5d5d; }
+body.dark-mode .tab.active {
+  background: #2a2a2a;
+  color: #fff;
+}
