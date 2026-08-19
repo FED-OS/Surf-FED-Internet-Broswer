@@ -2,68 +2,19 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minimal Browser</title>
+  <title>My Awesome Browser</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Toolbar -->
   <div id="toolbar">
-    <button id="backBtn" title="Back">◀</button>
-    <button id="forwardBtn" title="Forward">▶</button>
-    <button id="reloadBtn" title="Reload">⟳</button>
-    <button id="homeBtn" title="Home">🏠</button>
-    <input id="urlBar" type="text" placeholder="Search or enter URL..." spellcheck="false">
-    <button id="bookmarkBtn" title="Bookmark">☆</button>
-    <button id="historyBtn" title="History">📜</button>
-    <button id="duplicateBtn" title="Duplicate Tab">📋</button>
-    <button id="darkModeBtn" title="Toggle Dark Mode">🌙</button>
-    <button id="settingsBtn" title="Settings">⚙</button>
-    <button id="newTabBtn" title="New Tab">+</button>
+    <button id="backBtn">⬅️</button>
+    <button id="forwardBtn">➡️</button>
+    <button id="reloadBtn">🔄</button>
+    <input id="urlBar" type="text" placeholder="Search or type web address">
+    <button id="newTabBtn">➕</button>
   </div>
-
-  <!-- Tabs -->
   <div id="tabsContainer"></div>
-
-  <!-- Webview container -->
   <div id="webviewContainer"></div>
-
-  <!-- History Panel -->
-  <div id="historyPanel" class="panel hidden">
-    <h4>History</h4>
-    <input id="historySearch" placeholder="Search history..." />
-    <ul id="historyList"></ul>
-    <button id="clearHistoryBtn">Clear All</button>
-  </div>
-
-  <!-- Bookmarks Panel -->
-  <div id="bookmarksPanel" class="panel hidden">
-    <h4>Bookmarks</h4>
-    <input id="bookmarkSearch" placeholder="Search bookmarks..." />
-    <ul id="bookmarkList"></ul>
-  </div>
-
-  <!-- Settings Panel -->
-  <div id="settingsPanel" class="panel hidden">
-    <h4>Settings</h4>
-    <label>Theme:
-      <select id="themeSelect">
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </select>
-    </label>
-    <br>
-    <label>Search Engine:
-      <select id="searchEngineSelect">
-        <option value="google">Google</option>
-        <option value="bing">Bing</option>
-        <option value="duckduckgo">DuckDuckGo</option>
-      </select>
-    </label>
-    <br>
-    <button id="clearAllDataBtn">Clear All Data (History + Bookmarks)</button>
-  </div>
-
   <script src="renderer.js"></script>
 </body>
 </html>
