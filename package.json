@@ -1,40 +1,23 @@
 {
-  "name": "advanced-browser",
-  "version": "2.0.0",
-  "description": "Feature-rich Electron browser",
+  "name": "browser",
+  "version": "1.0.0",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder"
   },
-  "author": "Your Name",
-  "license": "MIT",
   "devDependencies": {
     "electron": "^28.0.0",
     "electron-builder": "^24.6.4"
   },
   "build": {
-    "appId": "com.yourname.advancedbrowser",
-    "productName": "AdvancedBrowser",
-    "directories": {
-      "output": "dist"
-    },
-    "files": [
-      "main.js",
-      "preload.js",
-      "index.html",
-      "styles.css",
-      "renderer.js"
-    ],
+    "appId": "com.yourname.browser",
+    "productName": "Browser",
+    "directories": { "output": "dist" },
+    "files": ["main.js", "preload.js", "index.html", "styles.css", "renderer.js"],
     "win": {
       "target": "portable",
-      "artifactName": "AdvancedBrowser.exe"
-    },
-    "mac": {
-      "target": "dmg"
-    },
-    "linux": {
-      "target": "AppImage"
+      "artifactName": "Browser.exe"
     }
   }
 }
