@@ -1,25 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>MyBrowser</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Browser</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="tab-bar">
-    <div id="tabs"></div>
-    <button id="new-tab-btn" title="New Tab">+</button>
-  </div>
-
+  <!-- Toolbar -->
   <div id="toolbar">
-    <button id="back-btn" title="Back">&#8592;</button>
-    <button id="forward-btn" title="Forward">&#8594;</button>
-    <button id="reload-btn" title="Reload">&#8635;</button>
-    <input id="address-bar" type="text" placeholder="Search or enter address" />
-    <button id="go-btn" title="Go">Go</button>
+    <button id="backBtn" title="Back">◀</button>
+    <button id="forwardBtn" title="Forward">▶</button>
+    <button id="reloadBtn" title="Reload">⟳</button>
+    <button id="homeBtn" title="Home">🏠</button>
+    <input id="urlBar" type="text" placeholder="Search or enter URL..." spellcheck="false">
+    <button id="bookmarkBtn" title="Bookmark">⭐</button>
+    <button id="incognitoBtn" title="New Incognito Window">👤</button>
+    <button id="downloadsBtn" title="Downloads">⬇</button>
+    <button id="settingsBtn" title="Settings">⚙</button>
+    <button id="newTabBtn" title="New Tab">+</button>
   </div>
 
-  <div id="webview-container"></div>
+  <!-- Tabs -->
+  <div id="tabsContainer"></div>
+
+  <!-- Webviews -->
+  <div id="webviewContainer"></div>
+
+  <!-- Panels (hidden by default) -->
+  <div id="bookmarksPanel" class="panel hidden">
+    <h3>Bookmarks</h3>
+    <input id="bookmarkSearch" placeholder="Search bookmarks..." />
+    <ul id="bookmarkList"></ul>
+  </div>
+  <div id="historyPanel" class="panel hidden">
+    <h3>History</h3>
+    <input id="historySearch" placeholder="Search history..." />
+    <button id="clearHistoryBtn">Clear All</button>
+    <ul id="historyList"></ul>
+  </div>
+  <div id="downloadsPanel" class="panel hidden">
+    <h3>Downloads</h3>
+    <ul id="downloadsList"></ul>
+    <button id="clearDownloadsBtn">Clear Completed</button>
+  </div>
 
   <script src="renderer.js"></script>
 </body>
