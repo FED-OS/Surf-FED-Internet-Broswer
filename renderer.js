@@ -9,7 +9,6 @@ const newTabBtn = document.getElementById('newTabBtn');
 const backBtn = document.getElementById('backBtn');
 const forwardBtn = document.getElementById('forwardBtn');
 const reloadBtn = document.getElementById('reloadBtn');
-const darkModeBtn = document.getElementById('darkModeBtn');
 
 function createTab(url = 'about:blank', isActive = true) {
   const id = ++tabIdCounter;
@@ -114,10 +113,5 @@ urlBar.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') navigateTo(urlBar.value);
 });
 
-// ---------- Dark mode ----------
-darkModeBtn.addEventListener('click', () => {
-  const isDark = document.body.classList.toggle('dark-mode');
-  darkModeBtn.textContent = isDark ? '☀️' : '🌙';
-});
-
-createTab('https://www.google.com', true);
+// === ONLY THIS ONE LINE CHANGED: Google → DuckDuckGo ===
+createTab('https://duckduckgo.com', true);
