@@ -113,5 +113,4 @@ urlBar.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') navigateTo(urlBar.value);
 });
 
-// === ONLY THIS ONE LINE CHANGED: Google → DuckDuckGo ===
-createTab('https://duckduckgo.com', true);
+createTab('https://www.google.com', true);
