@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Browser</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -13,8 +14,12 @@
     <input id="urlBar" type="text" placeholder="Enter URL or search...">
     <button id="newTabBtn">+</button>
   </div>
-  <div id="tabsContainer"></div>
-  <div id="webviewContainer"></div>
+  <div id="tabsContainer">
+    <!-- Tabs will be rendered here -->
+  </div>
+  <div id="webviewContainer">
+    <!-- Webviews will be rendered here -->
+  </div>
   <script src="renderer.js"></script>
 </body>
 </html>
