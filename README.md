@@ -1,4 +1,4 @@
-# MyBrowser
+# MyBrowser [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W3T61ZU5FS)
 
 A simple desktop web browser built with Electron. Has tabs, an address bar,
 back/forward/reload, and loads real websites via `<webview>`.
