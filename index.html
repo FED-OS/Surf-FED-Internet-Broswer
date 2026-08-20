@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Electron Browser</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="toolbar">
+    <button id="backBtn">◀</button>
+    <button id="forwardBtn">▶</button>
+    <button id="reloadBtn">⟳</button>
+    <input type="text" id="addressBar" placeholder="Enter URL or search..." />
+    <button id="newTabBtn">+</button>
+  </div>
+  <div id="tabBar"></div>
+  <div id="webviewContainer"></div>
+  <script src="renderer.js"></script>
+</body>
+</html>
