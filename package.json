@@ -1,5 +1,5 @@
 {
-  "name": "electron-browser",
+  "name": "Surf-FED",
   "version": "1.0.0",
   "description": "Custom Electron browser with tabs",
   "main": "main.js",
@@ -13,7 +13,7 @@
   },
   "build": {
     "appId": "com.yourname.electronbrowser",
-    "productName": "MyBrowser",
+    "productName": "Surf-FED",
     "directories": {
       "output": "dist"
     },
