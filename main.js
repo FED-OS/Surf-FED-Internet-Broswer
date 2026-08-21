@@ -16,7 +16,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
-    icon: path.join(__dirname, 'icon.png'), // <-- changed from 'build/icon.png' to 'icon.png'
+    icon: path.join(__dirname, 'icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -44,6 +44,7 @@ function createWindow() {
     if (isSafeExternalUrl(url)) {
       shell.openExternal(url);
     }
+
     return { action: 'deny' };
   });
 
@@ -52,9 +53,11 @@ function createWindow() {
 
 app.whenReady().then(() => {
   const ses = session.defaultSession;
+
   ses.setPermissionRequestHandler(
     (_webContents, _permission, callback) => callback(false)
   );
+
   ses.setPermissionCheckHandler(() => false);
 
   app.on('web-contents-created', (_event, contents) => {
@@ -70,6 +73,7 @@ app.whenReady().then(() => {
       if (isSafeExternalUrl(url)) {
         shell.openExternal(url);
       }
+
       return { action: 'deny' };
     });
   });
@@ -78,7 +82,9 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
 });
 
 app.on('activate', () => {
