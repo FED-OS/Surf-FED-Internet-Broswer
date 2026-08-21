@@ -16,7 +16,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
-    icon: path.join(__dirname, 'build/icon.png'), // <-- THIS IS THE ONLY ADDED LINE
+    icon: path.join(__dirname, 'icon.png'), // <-- changed from 'build/icon.png' to 'icon.png'
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
