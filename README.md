@@ -1,3 +1,4 @@
+<img width="2560" height="1440" alt="surf-fed-launch-05" src="https://github.com/user-attachments/assets/b125ec41-c08f-4aa5-98f1-c3b40d1b3422" />
 # Surf-FED [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W3T61ZU5FS)
 
 A simple desktop web browser built with Electron. Has tabs, an address bar,
