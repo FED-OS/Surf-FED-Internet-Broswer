@@ -1,5 +1,5 @@
 {
-  "name": "Surf FED",
+  "name": "browser",
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "files": ["main.js", "preload.js", "index.html", "styles.css", "renderer.js"],
     "win": {
       "target": "portable",
-      "artifactName": "Surf FED.exe"
+      "artifactName": "Browser.exe"
     }
   }
 }
