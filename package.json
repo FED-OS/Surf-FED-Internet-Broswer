@@ -1,34 +1,41 @@
 {
-  "name": "Surf-FED",
+  "name": "electron-browser",
   "version": "1.0.0",
-  "description": "Custom Electron browser with tabs",
+  "description": "A simple tabbed web browser built with Electron",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "icons": "python3 scripts/make_placeholder_icons.py",
     "dist": "electron-builder"
   },
+  "author": "",
+  "license": "MIT",
   "devDependencies": {
-    "electron": "43.4.1",
-    "electron-builder": "^24.9.1"
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
   },
   "build": {
-    "appId": "com.yourname.electronbrowser",
-    "productName": "Surf-FED",
-    "directories": {
-      "output": "dist",
-      "buildResources": "build"
+    "appId": "com.example.electronbrowser",
+    "productName": "Electron Browser",
+    "icon": "build/icon",
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "renderer.js",
+      "styles.css",
+      "assets/**/*"
+    ],
+    "mac": {
+      "icon": "build/icon.icns",
+      "category": "public.app-category.utilities"
     },
     "win": {
-      "target": "nsis",
       "icon": "build/icon.ico"
     },
-    "mac": {
-      "target": "dmg",
-      "icon": "build/icon.icns"
-    },
     "linux": {
-      "target": "AppImage",
-      "icon": "build/icon.png"
+      "icon": "assets/icons",
+      "target": ["AppImage"]
     }
   }
 }
