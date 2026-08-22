@@ -1,149 +1,126 @@
-// No Node.js modules – pure DOM + webview APIs
+const HOME_URL = 'https://www.google.com';
+
+const tabsEl = document.getElementById('tabs');
+const viewsEl = document.getElementById('views');
+const addressBar = document.getElementById('address-bar');
+const backBtn = document.getElementById('back-btn');
+const forwardBtn = document.getElementById('forward-btn');
+const reloadBtn = document.getElementById('reload-btn');
+const homeBtn = document.getElementById('home-btn');
+const goBtn = document.getElementById('go-btn');
+const newTabBtn = document.getElementById('new-tab-btn');
 
 let tabs = [];
-let activeTabId = 0;
-let tabIdCounter = 0;
+let activeTabId = null;
+let tabCounter = 0;
 
-const container = document.getElementById('webviewContainer');
-const tabBar = document.getElementById('tabBar');
-const addressBar = document.getElementById('addressBar');
-const newTabBtn = document.getElementById('newTabBtn');
-
-// Navigation buttons
-document.getElementById('backBtn').addEventListener('click', () => {
-  const webview = getActiveWebview();
-  if (webview && webview.canGoBack()) webview.goBack();
-});
-document.getElementById('forwardBtn').addEventListener('click', () => {
-  const webview = getActiveWebview();
-  if (webview && webview.canGoForward()) webview.goForward();
-});
-document.getElementById('reloadBtn').addEventListener('click', () => {
-  const webview = getActiveWebview();
-  if (webview) webview.reload();
-});
-
-// Address bar – handles URLs, localhost, and search terms
-addressBar.addEventListener('keydown', (e) => {
-  if (e.key !== 'Enter') return;
-
-  const input = addressBar.value.trim();
-  if (!input) return;
-
-  const webview = getActiveWebview();
-  if (!webview) return;
-
-  let finalUrl;
-  if (/^https?:\/\//i.test(input)) {
-    finalUrl = input;
-  } else if (/^localhost(:\d+)?(\/.*)?$/i.test(input)) {
-    finalUrl = `http://${input}`;
-  } else if (/^[^\s]+\.[^\s]+$/.test(input)) {
-    finalUrl = `https://${input}`;
-  } else {
-    finalUrl = `https://www.google.com/search?q=${encodeURIComponent(input)}`;
+function normalizeUrl(input) {
+  const trimmed = input.trim();
+  if (!trimmed) return HOME_URL;
+  const looksLikeUrl = /^https?:\/\//i.test(trimmed) || /^[\w-]+(\.[\w-]+)+.*$/.test(trimmed);
+  if (looksLikeUrl) {
+    return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
   }
+  return `https://www.google.com/search?q=${encodeURIComponent(trimmed)}`;
+}
 
-  webview.src = finalUrl;
-  webview.focus();
-});
-
-// New tab
-newTabBtn.addEventListener('click', () => createTab('https://google.com'));
-
-function createTab(url) {
-  const id = ++tabIdCounter;
-  const webview = document.createElement('webview');
-
-  // Attach to DOM first, then set src to avoid lifecycle timing issues
-  webview.id = `webview-${id}`;
-  webview.classList.add('active');
-  container.appendChild(webview);
-
-  // Set src after append
-  webview.src = url;
-
-  const updateAddressBar = () => {
-    if (activeTabId === id) {
-      addressBar.value = webview.getURL();
-    }
-  };
-
-  webview.addEventListener('did-navigate', updateAddressBar);
-  webview.addEventListener('did-navigate-in-page', updateAddressBar);
-
-  webview.addEventListener('page-title-updated', (e) => {
-    const tabEl = document.querySelector(`.tab[data-id="${id}"]`);
-    if (tabEl) {
-      const titleSpan = tabEl.querySelector('.tab-title');
-      if (titleSpan) titleSpan.textContent = e.title || 'New Tab';
-    }
-  });
+function createTab(url = HOME_URL) {
+  const id = `tab-${++tabCounter}`;
 
   const tabEl = document.createElement('div');
-  tabEl.className = 'tab active';
+  tabEl.className = 'tab';
   tabEl.dataset.id = id;
   tabEl.innerHTML = `
-    <span class="tab-title">${url || 'New Tab'}</span>
-    <button class="closeTab">✕</button>
+    <span class="tab-title">New Tab</span>
+    <img class="tab-close" src="assets/icons/ui/close.png" alt="Close" />
   `;
-  tabBar.appendChild(tabEl);
-
   tabEl.addEventListener('click', (e) => {
-    if (e.target.classList.contains('closeTab')) return;
-    switchTab(id);
+    if (e.target.classList.contains('tab-close')) return;
+    setActiveTab(id);
   });
-
-  tabEl.querySelector('.closeTab').addEventListener('click', (e) => {
+  tabEl.querySelector('.tab-close').addEventListener('click', (e) => {
     e.stopPropagation();
     closeTab(id);
   });
+  tabsEl.appendChild(tabEl);
 
-  tabs.push({ id, webview, tabEl });
-  switchTab(id);
-  return id;
+  const webview = document.createElement('webview');
+  webview.src = url;
+  webview.dataset.id = id;
+  viewsEl.appendChild(webview);
+
+  webview.addEventListener('page-title-updated', (e) => {
+    tabEl.querySelector('.tab-title').textContent = e.title;
+  });
+  webview.addEventListener('did-navigate', (e) => {
+    if (id === activeTabId) addressBar.value = e.url;
+  });
+  webview.addEventListener('did-navigate-in-page', (e) => {
+    if (id === activeTabId) addressBar.value = e.url;
+  });
+
+  tabs.push({ id, tabEl, webview });
+  setActiveTab(id);
 }
 
-function switchTab(id) {
+function setActiveTab(id) {
   activeTabId = id;
-  document.querySelectorAll('webview').forEach(wv => wv.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-
-  const tab = tabs.find(t => t.id === id);
-  if (tab) {
-    tab.webview.classList.add('active');
-    tab.tabEl.classList.add('active');
-    addressBar.value = tab.webview.getURL() || '';
-  }
+  tabs.forEach((t) => {
+    const isActive = t.id === id;
+    t.tabEl.classList.toggle('active', isActive);
+    t.webview.classList.toggle('active', isActive);
+    if (isActive) addressBar.value = t.webview.src || '';
+  });
 }
 
 function closeTab(id) {
-  if (tabs.length === 1) {
-    const tab = tabs[0];
-    tab.webview.remove();
-    tab.tabEl.remove();
-    tabs = [];
-    createTab('https://google.com');
-    return;
-  }
-
-  const index = tabs.findIndex(t => t.id === id);
+  const index = tabs.findIndex((t) => t.id === id);
   if (index === -1) return;
-  const tab = tabs[index];
-  tab.webview.remove();
-  tab.tabEl.remove();
+  const { tabEl, webview } = tabs[index];
+  tabEl.remove();
+  webview.remove();
   tabs.splice(index, 1);
 
+  if (tabs.length === 0) {
+    createTab();
+    return;
+  }
   if (activeTabId === id) {
-    const newIndex = Math.min(index, tabs.length - 1);
-    switchTab(tabs[newIndex].id);
+    const next = tabs[Math.max(0, index - 1)];
+    setActiveTab(next.id);
   }
 }
 
 function getActiveWebview() {
-  const tab = tabs.find(t => t.id === activeTabId);
-  return tab ? tab.webview : null;
+  const t = tabs.find((t) => t.id === activeTabId);
+  return t ? t.webview : null;
 }
 
+function navigateTo(input) {
+  const wv = getActiveWebview();
+  if (!wv) return;
+  wv.src = normalizeUrl(input);
+}
+
+// Toolbar wiring
+backBtn.addEventListener('click', () => {
+  const wv = getActiveWebview();
+  if (wv && wv.canGoBack()) wv.goBack();
+});
+forwardBtn.addEventListener('click', () => {
+  const wv = getActiveWebview();
+  if (wv && wv.canGoForward()) wv.goForward();
+});
+reloadBtn.addEventListener('click', () => {
+  const wv = getActiveWebview();
+  if (wv) wv.reload();
+});
+homeBtn.addEventListener('click', () => navigateTo(HOME_URL));
+goBtn.addEventListener('click', () => navigateTo(addressBar.value));
+addressBar.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') navigateTo(addressBar.value);
+});
+newTabBtn.addEventListener('click', () => createTab());
+
 // Start with one tab
-createTab('https://google.com');
+createTab();
