@@ -1,37 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Electron Browser</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Browser</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="tab-bar">
-    <div id="tabs"></div>
-    <button id="new-tab-btn" title="New tab">
-      <img src="assets/icons/ui/new-tab.png" alt="New tab" />
-    </button>
-  </div>
-
   <div id="toolbar">
-    <button id="back-btn" title="Back">
-      <img src="assets/icons/ui/back.png" alt="Back" />
-    </button>
-    <button id="forward-btn" title="Forward">
-      <img src="assets/icons/ui/forward.png" alt="Forward" />
-    </button>
-    <button id="reload-btn" title="Reload">
-      <img src="assets/icons/ui/reload.png" alt="Reload" />
-    </button>
-    <button id="home-btn" title="Home">
-      <img src="assets/icons/ui/home.png" alt="Home" />
-    </button>
-    <input id="address-bar" type="text" placeholder="Search or enter address" />
-    <button id="go-btn">Go</button>
+    <button id="backBtn">◀</button>
+    <button id="forwardBtn">▶</button>
+    <button id="reloadBtn">⟳</button>
+    <input id="urlBar" type="text" placeholder="Enter URL or search...">
+    <button id="newTabBtn">+</button>
+    <button id="darkModeBtn" title="Toggle dark mode">🌙</button>
   </div>
-
-  <div id="views"></div>
-
+  <div id="tabsContainer"></div>
+  <div id="webviewContainer"></div>
   <script src="renderer.js"></script>
 </body>
 </html>
