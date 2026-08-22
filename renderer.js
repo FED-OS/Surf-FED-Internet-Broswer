@@ -1,126 +1,123 @@
-const HOME_URL = 'https://www.google.com';
-
-const tabsEl = document.getElementById('tabs');
-const viewsEl = document.getElementById('views');
-const addressBar = document.getElementById('address-bar');
-const backBtn = document.getElementById('back-btn');
-const forwardBtn = document.getElementById('forward-btn');
-const reloadBtn = document.getElementById('reload-btn');
-const homeBtn = document.getElementById('home-btn');
-const goBtn = document.getElementById('go-btn');
-const newTabBtn = document.getElementById('new-tab-btn');
-
 let tabs = [];
 let activeTabId = null;
-let tabCounter = 0;
+let tabIdCounter = 0;
 
-function normalizeUrl(input) {
-  const trimmed = input.trim();
-  if (!trimmed) return HOME_URL;
-  const looksLikeUrl = /^https?:\/\//i.test(trimmed) || /^[\w-]+(\.[\w-]+)+.*$/.test(trimmed);
-  if (looksLikeUrl) {
-    return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
-  }
-  return `https://www.google.com/search?q=${encodeURIComponent(trimmed)}`;
-}
+const urlBar = document.getElementById('urlBar');
+const tabsContainer = document.getElementById('tabsContainer');
+const webviewContainer = document.getElementById('webviewContainer');
+const newTabBtn = document.getElementById('newTabBtn');
+const backBtn = document.getElementById('backBtn');
+const forwardBtn = document.getElementById('forwardBtn');
+const reloadBtn = document.getElementById('reloadBtn');
+const darkModeBtn = document.getElementById('darkModeBtn');
 
-function createTab(url = HOME_URL) {
-  const id = `tab-${++tabCounter}`;
+function createTab(url = 'about:blank', isActive = true) {
+  const id = ++tabIdCounter;
+  const tab = { id, title: 'New Tab', webview: null };
+  tabs.push(tab);
+
+  const webview = document.createElement('webview');
+  webview.setAttribute('src', url);
+  webview.style.display = 'none';
+  webviewContainer.appendChild(webview);
+  tab.webview = webview;
+
+  webview.addEventListener('did-stop-loading', () => {
+    tab.title = webview.getTitle() || 'New Tab';
+    urlBar.value = webview.getURL();
+    updateTabUI();
+  });
+  webview.addEventListener('page-title-updated', (e) => {
+    tab.title = e.title || 'New Tab';
+    updateTabUI();
+  });
 
   const tabEl = document.createElement('div');
   tabEl.className = 'tab';
   tabEl.dataset.id = id;
-  tabEl.innerHTML = `
-    <span class="tab-title">New Tab</span>
-    <img class="tab-close" src="assets/icons/ui/close.png" alt="Close" />
-  `;
+  tabEl.innerHTML = `<span>${tab.title}</span><button class="close-tab">×</button>`;
   tabEl.addEventListener('click', (e) => {
-    if (e.target.classList.contains('tab-close')) return;
-    setActiveTab(id);
+    if (e.target.classList.contains('close-tab')) return;
+    activateTab(id);
   });
-  tabEl.querySelector('.tab-close').addEventListener('click', (e) => {
+  tabEl.querySelector('.close-tab').addEventListener('click', (e) => {
     e.stopPropagation();
     closeTab(id);
   });
-  tabsEl.appendChild(tabEl);
+  tabsContainer.appendChild(tabEl);
 
-  const webview = document.createElement('webview');
-  webview.src = url;
-  webview.dataset.id = id;
-  viewsEl.appendChild(webview);
-
-  webview.addEventListener('page-title-updated', (e) => {
-    tabEl.querySelector('.tab-title').textContent = e.title;
-  });
-  webview.addEventListener('did-navigate', (e) => {
-    if (id === activeTabId) addressBar.value = e.url;
-  });
-  webview.addEventListener('did-navigate-in-page', (e) => {
-    if (id === activeTabId) addressBar.value = e.url;
-  });
-
-  tabs.push({ id, tabEl, webview });
-  setActiveTab(id);
+  if (isActive) activateTab(id);
+  else tab.webview.style.display = 'none';
+  updateTabUI();
+  return tab;
 }
 
-function setActiveTab(id) {
+function activateTab(id) {
   activeTabId = id;
-  tabs.forEach((t) => {
+  tabs.forEach(t => {
     const isActive = t.id === id;
-    t.tabEl.classList.toggle('active', isActive);
-    t.webview.classList.toggle('active', isActive);
-    if (isActive) addressBar.value = t.webview.src || '';
+    t.webview.style.display = isActive ? 'inline-flex' : 'none';
+    if (isActive) urlBar.value = t.webview.getURL();
   });
+  updateTabUI();
 }
 
 function closeTab(id) {
-  const index = tabs.findIndex((t) => t.id === id);
-  if (index === -1) return;
-  const { tabEl, webview } = tabs[index];
-  tabEl.remove();
-  webview.remove();
-  tabs.splice(index, 1);
+  const idx = tabs.findIndex(t => t.id === id);
+  if (idx === -1) return;
+  tabs[idx].webview.remove();
+  tabs.splice(idx, 1);
+  tabsContainer.children[idx]?.remove();
+  if (tabs.length === 0) createTab();
+  else if (activeTabId === id) activateTab(tabs[Math.min(idx, tabs.length - 1)].id);
+  updateTabUI();
+}
 
-  if (tabs.length === 0) {
-    createTab();
-    return;
+function updateTabUI() {
+  const tabEls = tabsContainer.querySelectorAll('.tab');
+  tabEls.forEach((el, i) => {
+    const tab = tabs[i];
+    if (!tab) return;
+    el.classList.toggle('active', tab.id === activeTabId);
+    el.querySelector('span').textContent = tab.title;
+  });
+}
+
+function navigateTo(url) {
+  if (!url) return;
+  if (!url.includes('.') && !url.startsWith('http')) {
+    url = 'https://www.google.com/search?q=' + encodeURIComponent(url);
+  } else if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    url = 'https://' + url;
   }
-  if (activeTabId === id) {
-    const next = tabs[Math.max(0, index - 1)];
-    setActiveTab(next.id);
+  const tab = tabs.find(t => t.id === activeTabId);
+  if (tab) {
+    tab.webview.loadURL(url);
+    urlBar.value = url;
   }
 }
 
-function getActiveWebview() {
-  const t = tabs.find((t) => t.id === activeTabId);
-  return t ? t.webview : null;
-}
-
-function navigateTo(input) {
-  const wv = getActiveWebview();
-  if (!wv) return;
-  wv.src = normalizeUrl(input);
-}
-
-// Toolbar wiring
+newTabBtn.addEventListener('click', () => createTab());
 backBtn.addEventListener('click', () => {
-  const wv = getActiveWebview();
-  if (wv && wv.canGoBack()) wv.goBack();
+  const tab = tabs.find(t => t.id === activeTabId);
+  if (tab) tab.webview.goBack();
 });
 forwardBtn.addEventListener('click', () => {
-  const wv = getActiveWebview();
-  if (wv && wv.canGoForward()) wv.goForward();
+  const tab = tabs.find(t => t.id === activeTabId);
+  if (tab) tab.webview.goForward();
 });
 reloadBtn.addEventListener('click', () => {
-  const wv = getActiveWebview();
-  if (wv) wv.reload();
+  const tab = tabs.find(t => t.id === activeTabId);
+  if (tab) tab.webview.reload();
 });
-homeBtn.addEventListener('click', () => navigateTo(HOME_URL));
-goBtn.addEventListener('click', () => navigateTo(addressBar.value));
-addressBar.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') navigateTo(addressBar.value);
+urlBar.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') navigateTo(urlBar.value);
 });
-newTabBtn.addEventListener('click', () => createTab());
 
-// Start with one tab
-createTab();
+// ---------- Dark mode ----------
+darkModeBtn.addEventListener('click', () => {
+  const isDark = document.body.classList.toggle('dark-mode');
+  darkModeBtn.textContent = isDark ? '☀️' : '🌙';
+});
+
+createTab('https://www.google.com', true);
