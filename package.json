@@ -18,6 +18,11 @@
     "appId": "com.example.electronbrowser",
     "productName": "Electron Browser",
     "icon": "build/icon",
+    "publish": {
+      "provider": "github",
+      "owner": "YOUR_GITHUB_USERNAME",
+      "repo": "YOUR_REPO_NAME"
+    },
     "files": [
       "main.js",
       "preload.js",
