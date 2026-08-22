@@ -1,5 +1,5 @@
 {
-  "name": "browser",
+  "name": "Surf FED",
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
@@ -12,12 +12,12 @@
   },
   "build": {
     "appId": "com.yourname.browser",
-    "productName": "Browser",
+    "productName": "Surf FED",
     "directories": { "output": "dist" },
     "files": ["main.js", "preload.js", "index.html", "styles.css", "renderer.js"],
     "win": {
       "target": "portable",
-      "artifactName": "Browser.exe"
+      "artifactName": "Surf FED.exe"
     }
   }
 }
