@@ -1,46 +1,23 @@
 {
-  "name": "electron-browser",
+  "name": "browser",
   "version": "1.0.0",
-  "description": "A simple tabbed web browser built with Electron",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "icons": "python3 scripts/make_placeholder_icons.py",
     "dist": "electron-builder"
   },
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
-    "electron": "^31.0.0",
-    "electron-builder": "^24.13.3"
+    "electron": "^28.0.0",
+    "electron-builder": "^24.6.4"
   },
   "build": {
-    "appId": "com.example.electronbrowser",
-    "productName": "Electron Browser",
-    "icon": "build/icon",
-    "publish": {
-      "provider": "github",
-      "owner": "YOUR_GITHUB_USERNAME",
-      "repo": "YOUR_REPO_NAME"
-    },
-    "files": [
-      "main.js",
-      "preload.js",
-      "index.html",
-      "renderer.js",
-      "styles.css",
-      "assets/**/*"
-    ],
-    "mac": {
-      "icon": "build/icon.icns",
-      "category": "public.app-category.utilities"
-    },
+    "appId": "com.yourname.browser",
+    "productName": "Browser",
+    "directories": { "output": "dist" },
+    "files": ["main.js", "preload.js", "index.html", "styles.css", "renderer.js"],
     "win": {
-      "icon": "build/icon.ico"
-    },
-    "linux": {
-      "icon": "assets/icons",
-      "target": ["AppImage"]
+      "target": "portable",
+      "artifactName": "Browser.exe"
     }
   }
 }
