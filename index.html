@@ -1,21 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Surf-FED</title>
+  <title>Electron Browser</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div id="toolbar">
-    <button id="backBtn">◀</button>
-    <button id="forwardBtn">▶</button>
-    <button id="reloadBtn">⟳</button>
-    <input type="text" id="addressBar" placeholder="Enter URL or search..." />
-    <button id="newTabBtn">+</button>
+  <div id="tab-bar">
+    <div id="tabs"></div>
+    <button id="new-tab-btn" title="New tab">
+      <img src="assets/icons/ui/new-tab.png" alt="New tab" />
+    </button>
   </div>
-  <div id="tabBar"></div>
-  <div id="webviewContainer"></div>
+
+  <div id="toolbar">
+    <button id="back-btn" title="Back">
+      <img src="assets/icons/ui/back.png" alt="Back" />
+    </button>
+    <button id="forward-btn" title="Forward">
+      <img src="assets/icons/ui/forward.png" alt="Forward" />
+    </button>
+    <button id="reload-btn" title="Reload">
+      <img src="assets/icons/ui/reload.png" alt="Reload" />
+    </button>
+    <button id="home-btn" title="Home">
+      <img src="assets/icons/ui/home.png" alt="Home" />
+    </button>
+    <input id="address-bar" type="text" placeholder="Search or enter address" />
+    <button id="go-btn">Go</button>
+  </div>
+
+  <div id="views"></div>
+
   <script src="renderer.js"></script>
 </body>
 </html>
