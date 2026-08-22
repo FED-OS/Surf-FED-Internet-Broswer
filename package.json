@@ -17,7 +17,7 @@
     "files": ["main.js", "preload.js", "index.html", "styles.css", "renderer.js"],
     "win": {
       "target": "portable",
-      "artifactName": "Browser.exe"
+      "artifactName": "Surf FED.exe"
     }
   }
 }
